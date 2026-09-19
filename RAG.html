@@ -1,3 +1,6 @@
+
+
+Rag simulator · HTML
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,9 +43,9 @@
   a{color:var(--indigo);}
   button, select, textarea, input{font-family:inherit;}
   ::selection{background:var(--indigo-dim); color:#fff;}
-
+ 
   .shell{max-width:1180px; margin:0 auto; padding:28px 20px 60px;}
-
+ 
   header.top{margin-bottom:22px;}
   header.top h1{
     font-size:clamp(1.5rem, 3vw, 2rem);
@@ -56,7 +59,7 @@
     font-size:14.5px;
     max-width:70ch;
   }
-
+ 
   /* ---------- CONTROLS ---------- */
   .controls{
     display:flex;
@@ -115,7 +118,7 @@
   .btn.primary:hover{filter:brightness(1.08);}
   .btn:disabled{opacity:0.5; cursor:not-allowed;}
   .btn.small{padding:7px 11px; font-size:12.5px;}
-
+ 
   /* ---------- KB EDITOR ---------- */
   .kb-editor{
     background:var(--panel);
@@ -161,7 +164,7 @@
     font-size:12px;
   }
   .doc-row .remove:hover{color:#f28b8b; border-color:#5a2c2c;}
-
+ 
   /* ---------- STAGE LAYOUT ---------- */
   .stage{
     display:grid;
@@ -172,14 +175,14 @@
   @media (max-width:920px){
     .stage{grid-template-columns:1fr;}
   }
-
+ 
   .pipeline{
     background:var(--panel);
     border:1px solid var(--line);
     border-radius:var(--radius);
     padding:26px;
   }
-
+ 
   .node{
     border:1px solid var(--line);
     background:var(--panel-2);
@@ -192,13 +195,13 @@
   .node h3{margin:0 0 3px; font-size:14.5px; font-weight:600;}
   .node .sub{font-size:11.5px; color:var(--muted);}
   .node.active{transform:translateY(-1px);}
-
+ 
   .node.tone-indigo.active{border-color:var(--indigo); box-shadow:0 0 0 1px var(--indigo), 0 0 20px -6px var(--indigo);}
   .node.tone-teal.active{border-color:var(--teal); box-shadow:0 0 0 1px var(--teal), 0 0 20px -6px var(--teal);}
   .node.tone-violet.active{border-color:var(--violet); box-shadow:0 0 0 1px var(--violet), 0 0 20px -6px var(--violet);}
   .node.tone-amber.active{border-color:var(--amber); box-shadow:0 0 0 1px var(--amber), 0 0 20px -6px var(--amber);}
   .node.tone-green.active{border-color:var(--green); box-shadow:0 0 0 1px var(--green), 0 0 20px -6px var(--green);}
-
+ 
   /* ---------- SEQUENTIAL STEPPER ---------- */
   .flow{ display:flex; flex-direction:column; }
   .step{
@@ -220,13 +223,13 @@
     transition:border-color .25s ease, color .25s ease, box-shadow .25s ease;
   }
   .step .node{ flex:1; }
-
+ 
   .step.tone-indigo.is-active .marker{ border-color:var(--indigo); color:var(--indigo); box-shadow:0 0 0 3px var(--indigo-dim); }
   .step.tone-teal.is-active .marker{ border-color:var(--teal); color:var(--teal); box-shadow:0 0 0 3px var(--teal-dim); }
   .step.tone-violet.is-active .marker{ border-color:var(--violet); color:var(--violet); box-shadow:0 0 0 3px var(--violet-dim); }
   .step.tone-amber.is-active .marker{ border-color:var(--amber); color:var(--amber); box-shadow:0 0 0 3px var(--amber-dim); }
   .step.tone-green.is-active .marker{ border-color:var(--green); color:var(--green); box-shadow:0 0 0 3px var(--green-dim); }
-
+ 
   .rail{
     width:2px;
     min-height:22px;
@@ -238,7 +241,7 @@
   .rail-labeled{ display:flex; align-items:center; gap:10px; margin:2px 0; }
   .rail-labeled .rail{ margin:0; }
   .rail-labeled .rail-text{ font-size:11.5px; color:var(--muted); }
-
+ 
   .kb-divider{
     margin:2px 0 14px 50px;
     font-size:12px;
@@ -249,11 +252,11 @@
     gap:8px;
   }
   .kb-divider::before{content:""; width:6px; height:6px; border-radius:50%; background:var(--teal); display:inline-block;}
-
+ 
   .prompt-node{
     background:linear-gradient(180deg, rgba(180,138,242,0.09), rgba(180,138,242,0.03));
   }
-
+ 
   /* pulse dot travelling down a rail */
   .pulse{
     position:absolute;
@@ -270,7 +273,7 @@
     85%{ opacity:1; }
     100%{ top:100%; opacity:0; }
   }
-
+ 
   /* ---------- INSPECTOR ---------- */
   .inspector{
     background:var(--panel);
@@ -348,7 +351,7 @@
     white-space:pre-wrap;
   }
   .hint{font-size:12px; color:var(--muted); margin-top:10px;}
-
+ 
   footer.note{
     margin-top:26px;
     font-size:12px;
@@ -356,7 +359,7 @@
     border-top:1px solid var(--line);
     padding-top:16px;
   }
-
+ 
   @media (prefers-reduced-motion: reduce){
     .connector-line.flowing .pulse{ animation:none; opacity:0; }
     .node{ transition:none; }
@@ -364,14 +367,14 @@
 </style>
 </head>
 <body>
-
+ 
 <div class="shell">
-
+ 
   <header class="top">
     <h1>RAG Pipeline Simulator</h1>
     <p>Type a question, run it through a small local knowledge base, and watch every step of retrieval-augmented generation happen in your browser — chunking, vector search and prompt assembly included. No external API calls: similarity is computed with simplified vector representations so you can see the mechanics, not a real neural embedding model.</p>
   </header>
-
+ 
   <div class="controls">
     <div class="field grow">
       <label for="queryInput">User query</label>
@@ -403,18 +406,18 @@
     <button class="btn" id="resetBtn" type="button">Reset</button>
     <button class="btn primary" id="runBtn" type="button">Run simulation</button>
   </div>
-
+ 
   <div class="kb-editor" id="kbEditor" hidden>
     <h2>Knowledge base documents</h2>
     <div id="docRows"></div>
     <button class="btn small" id="addDoc" type="button">+ Add document</button>
   </div>
-
+ 
   <div class="stage">
-
+ 
     <div class="pipeline">
       <div class="flow">
-
+ 
         <div class="step tone-indigo" data-step="query">
           <div class="marker">1</div>
           <div class="node tone-indigo" data-step="query">
@@ -422,9 +425,9 @@
             <div class="sub" id="promptPreview">What have been Tesla's market performance…</div>
           </div>
         </div>
-
+ 
         <div class="rail" id="c1"><span class="pulse" style="color:var(--indigo)"></span></div>
-
+ 
         <div class="step tone-indigo" data-step="embed-query">
           <div class="marker">2</div>
           <div class="node tone-indigo" data-step="embed-query">
@@ -432,14 +435,14 @@
             <div class="sub">turns the query into numbers</div>
           </div>
         </div>
-
+ 
         <div class="rail-labeled">
           <div class="rail" id="c2"><span class="pulse" style="color:var(--teal)"></span></div>
           <div class="rail-text">↳ search relevant data in the knowledge base</div>
         </div>
-
+ 
         <div class="kb-divider">Knowledge base</div>
-
+ 
         <div class="step tone-teal" data-step="kb-data">
           <div class="marker">3</div>
           <div class="node tone-teal" data-step="kb-data">
@@ -447,9 +450,9 @@
             <div class="sub">API · PDF · Website · Docs · Transcripts</div>
           </div>
         </div>
-
+ 
         <div class="rail" id="c3"><span class="pulse" style="color:var(--teal)"></span></div>
-
+ 
         <div class="step tone-teal" data-step="chunking">
           <div class="marker">4</div>
           <div class="node tone-teal" data-step="chunking">
@@ -457,9 +460,9 @@
             <div class="sub" id="chunkSub">Fixed · Section · Hierarchical</div>
           </div>
         </div>
-
+ 
         <div class="rail" id="c4"><span class="pulse" style="color:var(--teal)"></span></div>
-
+ 
         <div class="step tone-teal" data-step="embed-chunks">
           <div class="marker">5</div>
           <div class="node tone-teal" data-step="embed-chunks">
@@ -467,9 +470,9 @@
             <div class="sub" id="embedSub">Dense · Sparse · Multimodal</div>
           </div>
         </div>
-
+ 
         <div class="rail" id="c5"><span class="pulse" style="color:var(--teal)"></span></div>
-
+ 
         <div class="step tone-teal" data-step="topchunks">
           <div class="marker">6</div>
           <div class="node tone-teal" data-step="topchunks">
@@ -477,9 +480,9 @@
             <div class="sub">highest-scoring chunks, original text</div>
           </div>
         </div>
-
+ 
         <div class="rail" id="c6"><span class="pulse" style="color:var(--teal)"></span></div>
-
+ 
         <div class="step tone-violet" data-step="prompt">
           <div class="marker">7</div>
           <div class="node prompt-node tone-violet" data-step="prompt">
@@ -487,9 +490,9 @@
             <div class="sub">query + retrieved context, assembled</div>
           </div>
         </div>
-
+ 
         <div class="rail" id="c7"><span class="pulse" style="color:var(--violet)"></span></div>
-
+ 
         <div class="step tone-amber" data-step="llm">
           <div class="marker">8</div>
           <div class="node tone-amber" data-step="llm">
@@ -497,9 +500,9 @@
             <div class="sub">generates the answer</div>
           </div>
         </div>
-
+ 
         <div class="rail" id="c8"><span class="pulse" style="color:var(--amber)"></span></div>
-
+ 
         <div class="step tone-green" data-step="output">
           <div class="marker">9</div>
           <div class="node tone-green" data-step="output">
@@ -507,10 +510,10 @@
             <div class="sub">answer shown to the user</div>
           </div>
         </div>
-
+ 
       </div>
     </div>
-
+ 
     <aside class="inspector">
       <h2>Inspector</h2>
       <div class="step-title" id="inspTitle">Ready to run</div>
@@ -519,21 +522,21 @@
         <p class="hint">Try changing the chunking strategy, the embedding type, or editing the knowledge base, then run it again — the retrieved chunks and score will change.</p>
       </div>
     </aside>
-
+ 
   </div>
-
+ 
   <footer class="note">
     Similarity here is computed with simplified vector representations (term-frequency vectors for "sparse", a fixed-size hashed vector for "dense"/"multimodal") so the math can run entirely in your browser — real RAG systems use dense neural embedding models. The LLM and Output stages show a templated response built from the retrieved text, not a real model call.
   </footer>
-
+ 
 </div>
-
+ 
 <script>
 (function(){
   "use strict";
-
+ 
   const STOPWORDS = new Set(["the","a","an","and","of","in","to","for","on","is","are","was","were","has","have","had","with","that","this","it","as","by","at","from","be","been","its","or","but","if","than","also","said","into","over","after","their","which","will","would"]);
-
+ 
   const DEFAULT_DOCS = [
     { title:"Q3 2025 Earnings Release", text:"Tesla delivered 462,000 vehicles in the third quarter of 2025, roughly flat year over year. Automotive revenue came in at 19.2 billion dollars, while total revenue reached 25.1 billion dollars including energy storage and services. Operating margin held at 7.8 percent, supported by lower raw material costs and higher energy deployments. Free cash flow for the quarter was 2.1 billion dollars." },
     { title:"Q4 2025 Earnings Release", text:"Tesla delivered 495,000 vehicles in the fourth quarter of 2025, an increase of 7 percent from the prior quarter. Automotive revenue rose to 20.6 billion dollars on stronger demand in North America and China.\n\nEnergy generation and storage revenue grew 34 percent year over year to 3.9 billion dollars, driven by Megapack deployments. Management said 2026 deliveries are expected to grow at a low double digit rate, with new lower cost models entering production in the second half of the year." },
@@ -541,11 +544,11 @@
     { title:"Analyst Outlook and Guidance", text:"Several analysts raised price targets after the fourth quarter report, citing better than expected margins and strong energy storage bookings. The average price target implies roughly 15 percent upside from current levels. Bears continue to flag slowing core vehicle growth and pricing pressure from Chinese competitors as reasons for caution." },
     { title:"Berlin Gigafactory Expansion", text:"Tesla announced an expansion of its Gigafactory Berlin-Brandenburg site, adding a new battery cell production line and additional employee housing nearby. The expansion is expected to increase local employment by roughly 2,000 workers over the next two years. Local officials welcomed the investment while some residents raised concerns about water usage and traffic near the site. Construction on the new line is expected to begin in early 2026 and reach full production by 2027, according to company statements shared with regional media outlets." }
   ];
-
+ 
   let docs = DEFAULT_DOCS.map(d=>({ ...d }));
   let result = null; // last computed pipeline result
   let running = false;
-
+ 
   // ---------- DOM ----------
   const $ = (id)=>document.getElementById(id);
   const queryInput = $("queryInput");
@@ -561,7 +564,7 @@
   const inspTitle = $("inspTitle");
   const inspBody = $("inspBody");
   const promptPreview = $("promptPreview");
-
+ 
   const nodes = Array.from(document.querySelectorAll(".node"));
   const steps = Array.from(document.querySelectorAll(".step"));
   const connectors = {
@@ -575,18 +578,18 @@
     "llm": "c7",
     "output": "c8"
   };
-
+ 
   // ---------- text utils ----------
   function tokenize(text){
     return (text.toLowerCase().match(/[a-z0-9']+/g) || []).filter(w=>!STOPWORDS.has(w) && w.length>1);
   }
-
+ 
   function hashStr(s){
     let h = 0;
     for(let i=0;i<s.length;i++){ h = (h*31 + s.charCodeAt(i)) >>> 0; }
     return h;
   }
-
+ 
   function vectorizeSparse(tokensList){
     const vocabSet = new Set();
     tokensList.forEach(arr=>arr.forEach(w=>vocabSet.add(w)));
@@ -598,7 +601,7 @@
     });
     return { vectors, dims: vocab.length, vocab };
   }
-
+ 
   function vectorizeDense(tokensList, dim){
     dim = dim || 16;
     const vectors = tokensList.map(tokens=>{
@@ -613,23 +616,23 @@
     });
     return { vectors, dims: dim, vocab:null };
   }
-
+ 
   function normalize(v){
     const norm = Math.sqrt(v.reduce((s,x)=>s+x*x,0)) || 1;
     return v.map(x=>x/norm);
   }
-
+ 
   function cosineSim(a,b){
     let dot=0, na=0, nb=0;
     for(let i=0;i<a.length;i++){ dot += a[i]*b[i]; na += a[i]*a[i]; nb += b[i]*b[i]; }
     if(na===0 || nb===0) return 0;
     return dot / (Math.sqrt(na)*Math.sqrt(nb));
   }
-
+ 
   function sentenceSplit(text){
     return (text.match(/[^.!?]+[.!?]*/g) || [text]).map(s=>s.trim()).filter(Boolean);
   }
-
+ 
   function chunkFixed(text, size, overlap){
     size = size || 28; overlap = overlap || 6;
     const words = text.replace(/\n+/g," ").split(/\s+/).filter(Boolean);
@@ -643,7 +646,7 @@
     }
     return chunks;
   }
-
+ 
   function chunkSection(text){
     let sections = text.split(/\n\s*\n/).map(s=>s.trim()).filter(Boolean);
     if(sections.length > 1) return sections;
@@ -654,7 +657,7 @@
     }
     return chunks.length ? chunks : [text];
   }
-
+ 
   function chunkHierarchical(text){
     const sections = text.split(/\n\s*\n/).map(s=>s.trim()).filter(Boolean);
     const base = sections.length > 1 ? sections : chunkSection(text);
@@ -666,89 +669,89 @@
     });
     return out;
   }
-
+ 
   function firstSentence(text){
     const s = sentenceSplit(text);
     return s.length ? s[0] : text;
   }
-
+ 
   // ---------- pipeline ----------
   function computePipeline(){
     const query = queryInput.value.trim() || DEFAULT_DOCS.length ? queryInput.value.trim() : "";
     const strategy = chunkStrategySel.value;
     const embedType = embeddingTypeSel.value;
     const topN = parseInt(topNSel.value, 10);
-
+ 
     const chunkFn = strategy === "fixed" ? (t)=>chunkFixed(t,28,6)
                    : strategy === "section" ? chunkSection
                    : chunkHierarchical;
-
+ 
     const chunkObjs = [];
     docs.forEach(doc=>{
       const pieces = chunkFn(doc.text).filter(p=>p.trim().length>0);
       pieces.forEach(p=> chunkObjs.push({ docTitle: doc.title, text: p.trim() }) );
     });
-
+ 
     const tokensList = [tokenize(query), ...chunkObjs.map(c=>tokenize(c.text))];
-
+ 
     let vecResult;
     if(embedType === "sparse"){
       vecResult = vectorizeSparse(tokensList);
     } else {
       vecResult = vectorizeDense(tokensList, 16);
     }
-
+ 
     const queryVector = normalize(vecResult.vectors[0]);
     const chunkVectors = vecResult.vectors.slice(1).map(normalize);
-
+ 
     const scored = chunkObjs.map((c, i)=>({
       ...c,
       vector: chunkVectors[i],
       score: cosineSim(queryVector, chunkVectors[i])
     })).sort((a,b)=> b.score - a.score);
-
+ 
     const topChunks = scored.slice(0, topN);
-
+ 
     const promptText =
 `Answer the following user query based on the given context:
-
+ 
 User Query: ${query}
-
+ 
 Context:
 ${topChunks.map((c,i)=>`[${i+1}] (from ${c.docTitle}) ${c.text}`).join("\n\n")}`;
-
+ 
     const outputText =
 `Based on the retrieved context, here's what the data shows about "${query}":
-
+ 
 ${topChunks.slice(0,2).map(c=>firstSentence(c.text)).join(" ")}
-
+ 
 (Simulated response, assembled directly from the retrieved chunks above — a real system would send the prompt to an actual language model here.)`;
-
+ 
     result = {
       query, strategy, embedType, topN,
       dims: vecResult.dims,
       queryVector, allChunks: scored, topChunks,
       promptText, outputText
     };
-
+ 
     promptPreview.textContent = query.length > 58 ? query.slice(0,55)+"…" : query;
     $("chunkSub").textContent = strategyLabel(strategy);
     $("embedSub").textContent = embedTypeLabel(embedType);
-
+ 
     return result;
   }
-
+ 
   function strategyLabel(s){
     return s==="fixed" ? "Fixed size chunks" : s==="section" ? "Section-based chunks" : "Hierarchical chunks";
   }
   function embedTypeLabel(e){
     return e==="sparse" ? "Sparse (term-frequency)" : e==="dense" ? "Dense (hashed, 16-dim)" : "Multimodal (text-only fallback)";
   }
-
+ 
   function fmtVec(v, n){
     return "[ " + v.slice(0, n||8).map(x=>x.toFixed(2)).join(", ") + (v.length>(n||8) ? ", …" : "") + " ]";
   }
-
+ 
   // ---------- inspector ----------
   function renderInspector(step){
     if(!result){
@@ -759,7 +762,7 @@ ${topChunks.slice(0,2).map(c=>firstSentence(c.text)).join(" ")}
     const d = describeStep(step);
     inspTitle.textContent = d.title;
     let html = `<p>${d.blurb}</p>`;
-
+ 
     if(step === "query"){
       html += `<div class="vec">"${escapeHtml(result.query)}"</div>`;
     }
@@ -798,14 +801,14 @@ ${topChunks.slice(0,2).map(c=>firstSentence(c.text)).join(" ")}
     else if(step === "output"){
       html += `<div class="output-box">${escapeHtml(result.outputText)}</div>`;
     }
-
+ 
     inspBody.innerHTML = html;
   }
-
+ 
   function escapeHtml(s){
     return String(s).replace(/[&<>"']/g, m=>({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[m]));
   }
-
+ 
   function describeStep(step){
     const map = {
       "query": { title:"User Prompt", blurb:"The question typed by the person using the system, exactly as entered.", idle:"The raw question that starts the pipeline." },
@@ -820,7 +823,7 @@ ${topChunks.slice(0,2).map(c=>firstSentence(c.text)).join(" ")}
     };
     return map[step] || { title:"", blurb:"", idle:"" };
   }
-
+ 
   // ---------- node interactions ----------
   nodes.forEach(node=>{
     node.addEventListener("click", ()=>{
@@ -828,16 +831,16 @@ ${topChunks.slice(0,2).map(c=>firstSentence(c.text)).join(" ")}
       renderInspector(node.dataset.step);
     });
   });
-
+ 
   // ---------- animation ----------
   function delay(ms){ return new Promise(res=>setTimeout(res, ms)); }
-
+ 
   function clearActive(){
     nodes.forEach(n=>n.classList.remove("active"));
     steps.forEach(s=>s.classList.remove("is-active"));
     document.querySelectorAll(".rail").forEach(c=>c.classList.remove("flowing"));
   }
-
+ 
   async function flowConnector(id){
     if(!id) return;
     const el = document.getElementById(id);
@@ -846,16 +849,16 @@ ${topChunks.slice(0,2).map(c=>firstSentence(c.text)).join(" ")}
     void el.offsetWidth; // restart animation
     el.classList.add("flowing");
   }
-
+ 
   async function runSimulation(){
     if(running) return;
     running = true;
     runBtn.disabled = true;
     computePipeline();
     clearActive();
-
+ 
     const order = ["query","embed-query","kb-data","chunking","embed-chunks","topchunks","prompt","llm","output"];
-
+ 
     for(const step of order){
       nodes.forEach(n=> n.classList.toggle("active", n.dataset.step===step) );
       steps.forEach(s=> s.classList.toggle("is-active", s.dataset.step===step) );
@@ -863,13 +866,13 @@ ${topChunks.slice(0,2).map(c=>firstSentence(c.text)).join(" ")}
       renderInspector(step);
       await delay(1150);
     }
-
+ 
     running = false;
     runBtn.disabled = false;
   }
-
+ 
   runBtn.addEventListener("click", runSimulation);
-
+ 
   resetBtn.addEventListener("click", ()=>{
     if(running) return;
     docs = DEFAULT_DOCS.map(d=>({ ...d }));
@@ -884,17 +887,17 @@ ${topChunks.slice(0,2).map(c=>firstSentence(c.text)).join(" ")}
     inspTitle.textContent = "Ready to run";
     inspBody.innerHTML = `<p>Click <strong>Run simulation</strong> to watch the query flow through the pipeline, or click any box above to read what that stage does.</p>`;
   });
-
+ 
   toggleKbBtn.addEventListener("click", ()=>{
     kbEditor.hidden = !kbEditor.hidden;
     toggleKbBtn.textContent = kbEditor.hidden ? "Edit knowledge base" : "Hide knowledge base editor";
   });
-
+ 
   addDocBtn.addEventListener("click", ()=>{
     docs.push({ title:"New document", text:"Add source text here." });
     renderDocRows();
   });
-
+ 
   function renderDocRows(){
     docRows.innerHTML = "";
     docs.forEach((doc, idx)=>{
@@ -907,7 +910,7 @@ ${topChunks.slice(0,2).map(c=>firstSentence(c.text)).join(" ")}
       `;
       docRows.appendChild(row);
     });
-
+ 
     docRows.querySelectorAll("input[data-field='title']").forEach(inp=>{
       inp.addEventListener("input", (e)=>{ docs[e.target.dataset.idx].title = e.target.value; });
     });
@@ -922,13 +925,15 @@ ${topChunks.slice(0,2).map(c=>firstSentence(c.text)).join(" ")}
       });
     });
   }
-
+ 
   // ---------- init ----------
   renderDocRows();
   computePipeline();
-
+ 
 })();
 </script>
-
+ 
 </body>
 </html>
+ 
+
