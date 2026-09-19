@@ -80,6 +80,10 @@
     padding:9px 10px;
     font-size:14px;
   }
+  .field.grow input[type="text"]{
+    padding:14px 14px;
+    font-size:16px;
+  }
   .field select{
     background:var(--panel-2);
     border:1px solid var(--line);
@@ -195,12 +199,48 @@
   .node.tone-amber.active{border-color:var(--amber); box-shadow:0 0 0 1px var(--amber), 0 0 20px -6px var(--amber);}
   .node.tone-green.active{border-color:var(--green); box-shadow:0 0 0 1px var(--green), 0 0 20px -6px var(--green);}
 
-  .row-top{display:grid; grid-template-columns:1fr auto 1fr; gap:14px; align-items:center;}
-  .row-top .arrow-h{display:flex; justify-content:center; align-items:center; color:var(--muted); position:relative; width:44px; height:20px;}
-  .connector-line{position:relative; width:100%; height:100%;}
+  /* ---------- SEQUENTIAL STEPPER ---------- */
+  .flow{ display:flex; flex-direction:column; }
+  .step{
+    display:flex;
+    gap:16px;
+    align-items:flex-start;
+  }
+  .marker{
+    flex:none;
+    width:34px; height:34px;
+    border-radius:50%;
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    font-family:"JetBrains Mono", monospace;
+    font-size:12.5px;
+    color:var(--muted);
+    z-index:2;
+    transition:border-color .25s ease, color .25s ease, box-shadow .25s ease;
+  }
+  .step .node{ flex:1; }
 
-  .kb-label{
-    margin:22px 0 10px;
+  .step.tone-indigo.is-active .marker{ border-color:var(--indigo); color:var(--indigo); box-shadow:0 0 0 3px var(--indigo-dim); }
+  .step.tone-teal.is-active .marker{ border-color:var(--teal); color:var(--teal); box-shadow:0 0 0 3px var(--teal-dim); }
+  .step.tone-violet.is-active .marker{ border-color:var(--violet); color:var(--violet); box-shadow:0 0 0 3px var(--violet-dim); }
+  .step.tone-amber.is-active .marker{ border-color:var(--amber); color:var(--amber); box-shadow:0 0 0 3px var(--amber-dim); }
+  .step.tone-green.is-active .marker{ border-color:var(--green); color:var(--green); box-shadow:0 0 0 3px var(--green-dim); }
+
+  .rail{
+    width:2px;
+    min-height:22px;
+    height:26px;
+    background:var(--line);
+    margin-left:16px;
+    position:relative;
+  }
+  .rail-labeled{ display:flex; align-items:center; gap:10px; margin:2px 0; }
+  .rail-labeled .rail{ margin:0; }
+  .rail-labeled .rail-text{ font-size:11.5px; color:var(--muted); }
+
+  .kb-divider{
+    margin:2px 0 14px 50px;
     font-size:12px;
     font-weight:600;
     color:var(--muted);
@@ -208,69 +248,26 @@
     align-items:center;
     gap:8px;
   }
-  .kb-label::before{content:""; width:6px; height:6px; border-radius:50%; background:var(--teal); display:inline-block;}
-
-  .row-kb{display:grid; grid-template-columns:1fr auto 1fr auto 1fr; gap:8px; align-items:center;}
-  @media (max-width:640px){ .row-kb{grid-template-columns:1fr;} .row-kb .arrow-h{transform:rotate(90deg); margin:2px auto;} }
-
-  .vlinks{
-    display:grid;
-    grid-template-columns:1fr auto 1fr;
-    gap:14px;
-    align-items:center;
-    margin:14px 0;
-  }
-  .arrow-v{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    color:var(--muted);
-    font-size:11px;
-    gap:2px;
-    height:34px;
-  }
-
-  .search-link{
-    grid-column:2 / span 2;
-    display:flex;
-    align-items:center;
-    justify-content:flex-end;
-    gap:8px;
-    color:var(--muted);
-    font-size:11.5px;
-    padding-right:6px;
-    margin-top:4px;
-  }
+  .kb-divider::before{content:""; width:6px; height:6px; border-radius:50%; background:var(--teal); display:inline-block;}
 
   .prompt-node{
     background:linear-gradient(180deg, rgba(180,138,242,0.09), rgba(180,138,242,0.03));
   }
-  .llm-row{display:grid; grid-template-columns:1fr auto 1fr; gap:14px; align-items:center; margin-top:16px;}
 
-  /* pulse dot */
+  /* pulse dot travelling down a rail */
   .pulse{
     position:absolute;
     width:8px; height:8px;
     border-radius:50%;
-    background:var(--indigo);
-    top:50%; left:0;
+    left:50%; top:0;
     transform:translate(-50%,-50%);
     opacity:0;
     box-shadow:0 0 8px 2px currentColor;
   }
-  .connector-line.h .pulse{ top:50%; left:0; }
-  .connector-line.v .pulse{ left:50%; top:0; }
-  .connector-line.flowing.h .pulse{ animation: flowH 1.05s ease forwards; }
-  .connector-line.flowing.v .pulse{ animation: flowV 1.05s ease forwards; }
-  @keyframes flowH{
-    0%{ left:0%; opacity:1; }
-    90%{ opacity:1; }
-    100%{ left:100%; opacity:0; }
-  }
+  .rail.flowing .pulse{ animation: flowV 0.9s ease forwards; }
   @keyframes flowV{
     0%{ top:0%; opacity:1; }
-    90%{ opacity:1; }
+    85%{ opacity:1; }
     100%{ top:100%; opacity:0; }
   }
 
@@ -416,83 +413,102 @@
   <div class="stage">
 
     <div class="pipeline">
+      <div class="flow">
 
-      <div class="row-top">
-        <div class="node tone-indigo" data-step="query" data-tone="indigo">
-          <h3>User Prompt</h3>
-          <div class="sub" id="promptPreview">What have been Tesla's market performance…</div>
+        <div class="step tone-indigo" data-step="query">
+          <div class="marker">1</div>
+          <div class="node tone-indigo" data-step="query">
+            <h3>User Prompt</h3>
+            <div class="sub" id="promptPreview">What have been Tesla's market performance…</div>
+          </div>
         </div>
-        <div class="arrow-h">
-          <div class="connector-line h" id="c-query-embed"><span class="pulse" style="color:var(--indigo)"></span></div>
+
+        <div class="rail" id="c1"><span class="pulse" style="color:var(--indigo)"></span></div>
+
+        <div class="step tone-indigo" data-step="embed-query">
+          <div class="marker">2</div>
+          <div class="node tone-indigo" data-step="embed-query">
+            <h3>Vector Embedding</h3>
+            <div class="sub">turns the query into numbers</div>
+          </div>
         </div>
-        <div class="node tone-indigo" data-step="embed-query" data-tone="indigo">
-          <h3>Vector Embedding</h3>
-          <div class="sub">turns the query into numbers</div>
+
+        <div class="rail-labeled">
+          <div class="rail" id="c2"><span class="pulse" style="color:var(--teal)"></span></div>
+          <div class="rail-text">↳ search relevant data in the knowledge base</div>
         </div>
+
+        <div class="kb-divider">Knowledge base</div>
+
+        <div class="step tone-teal" data-step="kb-data">
+          <div class="marker">3</div>
+          <div class="node tone-teal" data-step="kb-data">
+            <h3>Data</h3>
+            <div class="sub">API · PDF · Website · Docs · Transcripts</div>
+          </div>
+        </div>
+
+        <div class="rail" id="c3"><span class="pulse" style="color:var(--teal)"></span></div>
+
+        <div class="step tone-teal" data-step="chunking">
+          <div class="marker">4</div>
+          <div class="node tone-teal" data-step="chunking">
+            <h3>Chunking</h3>
+            <div class="sub" id="chunkSub">Fixed · Section · Hierarchical</div>
+          </div>
+        </div>
+
+        <div class="rail" id="c4"><span class="pulse" style="color:var(--teal)"></span></div>
+
+        <div class="step tone-teal" data-step="embed-chunks">
+          <div class="marker">5</div>
+          <div class="node tone-teal" data-step="embed-chunks">
+            <h3>Vector Embeddings</h3>
+            <div class="sub" id="embedSub">Dense · Sparse · Multimodal</div>
+          </div>
+        </div>
+
+        <div class="rail" id="c5"><span class="pulse" style="color:var(--teal)"></span></div>
+
+        <div class="step tone-teal" data-step="topchunks">
+          <div class="marker">6</div>
+          <div class="node tone-teal" data-step="topchunks">
+            <h3>Top N Chunks</h3>
+            <div class="sub">highest-scoring chunks, original text</div>
+          </div>
+        </div>
+
+        <div class="rail" id="c6"><span class="pulse" style="color:var(--teal)"></span></div>
+
+        <div class="step tone-violet" data-step="prompt">
+          <div class="marker">7</div>
+          <div class="node prompt-node tone-violet" data-step="prompt">
+            <h3>Augmented Prompt</h3>
+            <div class="sub">query + retrieved context, assembled</div>
+          </div>
+        </div>
+
+        <div class="rail" id="c7"><span class="pulse" style="color:var(--violet)"></span></div>
+
+        <div class="step tone-amber" data-step="llm">
+          <div class="marker">8</div>
+          <div class="node tone-amber" data-step="llm">
+            <h3>LLM</h3>
+            <div class="sub">generates the answer</div>
+          </div>
+        </div>
+
+        <div class="rail" id="c8"><span class="pulse" style="color:var(--amber)"></span></div>
+
+        <div class="step tone-green" data-step="output">
+          <div class="marker">9</div>
+          <div class="node tone-green" data-step="output">
+            <h3>Output</h3>
+            <div class="sub">answer shown to the user</div>
+          </div>
+        </div>
+
       </div>
-
-      <div class="search-link">
-        <span>search relevant data</span>
-        <div class="connector-line v" id="c-embed-search" style="width:1px; height:26px;"><span class="pulse" style="color:var(--indigo)"></span></div>
-      </div>
-
-      <div class="kb-label">Knowledge base</div>
-
-      <div class="row-kb">
-        <div class="node tone-teal" data-step="kb-data" data-tone="teal">
-          <h3>Data</h3>
-          <div class="sub">API · PDF · Website · Docs · Transcripts</div>
-        </div>
-        <div class="arrow-h">
-          <div class="connector-line h" id="c-data-chunk"><span class="pulse" style="color:var(--teal)"></span></div>
-        </div>
-        <div class="node tone-teal" data-step="chunking" data-tone="teal">
-          <h3>Chunking</h3>
-          <div class="sub" id="chunkSub">Fixed · Section · Hierarchical</div>
-        </div>
-        <div class="arrow-h">
-          <div class="connector-line h" id="c-chunk-embed"><span class="pulse" style="color:var(--teal)"></span></div>
-        </div>
-        <div class="node tone-teal" data-step="embed-chunks" data-tone="teal">
-          <h3>Vector Embeddings</h3>
-          <div class="sub" id="embedSub">Dense · Sparse · Multimodal</div>
-        </div>
-      </div>
-
-      <div class="vlinks">
-        <div></div>
-        <div class="arrow-v"><div class="connector-line v" id="c-embed-topn" style="width:1px; height:30px;"><span class="pulse" style="color:var(--teal)"></span></div></div>
-        <div></div>
-      </div>
-
-      <div class="row-top" style="grid-template-columns:1fr auto 1fr;">
-        <div class="node prompt-node tone-violet" data-step="prompt" data-tone="violet">
-          <h3>Augmented Prompt</h3>
-          <div class="sub">query + retrieved context, assembled</div>
-        </div>
-        <div class="arrow-h" style="transform:scaleX(-1);">
-          <div class="connector-line h" id="c-topn-prompt"><span class="pulse" style="color:var(--teal)"></span></div>
-        </div>
-        <div class="node tone-teal" data-step="topchunks" data-tone="teal">
-          <h3>Top N Chunks</h3>
-          <div class="sub">highest-scoring chunks, original text</div>
-        </div>
-      </div>
-
-      <div class="llm-row">
-        <div class="node tone-amber" data-step="llm" data-tone="amber">
-          <h3>LLM</h3>
-          <div class="sub">generates the answer</div>
-        </div>
-        <div class="arrow-h">
-          <div class="connector-line h" id="c-llm-output"><span class="pulse" style="color:var(--amber)"></span></div>
-        </div>
-        <div class="node tone-green" data-step="output" data-tone="green">
-          <h3>Output</h3>
-          <div class="sub">answer shown to the user</div>
-        </div>
-      </div>
-
     </div>
 
     <aside class="inspector">
@@ -547,16 +563,17 @@
   const promptPreview = $("promptPreview");
 
   const nodes = Array.from(document.querySelectorAll(".node"));
+  const steps = Array.from(document.querySelectorAll(".step"));
   const connectors = {
     "query": null,
-    "embed-query": "c-query-embed",
-    "kb-data": "c-embed-search",
-    "chunking": "c-data-chunk",
-    "embed-chunks": "c-chunk-embed",
-    "topchunks": "c-embed-topn",
-    "prompt": "c-topn-prompt",
-    "llm": "c-llm-output",
-    "output": "c-llm-output"
+    "embed-query": "c1",
+    "kb-data": "c2",
+    "chunking": "c3",
+    "embed-chunks": "c4",
+    "topchunks": "c5",
+    "prompt": "c6",
+    "llm": "c7",
+    "output": "c8"
   };
 
   // ---------- text utils ----------
@@ -817,7 +834,8 @@ ${topChunks.slice(0,2).map(c=>firstSentence(c.text)).join(" ")}
 
   function clearActive(){
     nodes.forEach(n=>n.classList.remove("active"));
-    document.querySelectorAll(".connector-line").forEach(c=>c.classList.remove("flowing"));
+    steps.forEach(s=>s.classList.remove("is-active"));
+    document.querySelectorAll(".rail").forEach(c=>c.classList.remove("flowing"));
   }
 
   async function flowConnector(id){
@@ -840,6 +858,7 @@ ${topChunks.slice(0,2).map(c=>firstSentence(c.text)).join(" ")}
 
     for(const step of order){
       nodes.forEach(n=> n.classList.toggle("active", n.dataset.step===step) );
+      steps.forEach(s=> s.classList.toggle("is-active", s.dataset.step===step) );
       flowConnector(connectors[step]);
       renderInspector(step);
       await delay(1150);
